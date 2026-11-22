@@ -99,7 +99,7 @@
    <h2 class="panel-title">What should you do?</h2>
    <div class="action green" id="advice"><strong>Prepare to evacuate</strong><p>Check your evacuation route, keep essential items ready, and stay alert for the next instruction.</p></div>
    <div class="buttons"><button class="btn main" id="next">Next update →</button><button class="btn" id="reset">Reset demo</button></div>
-   <div class="steps" id="progress"><i class="step done"></i><i class="step"></i><i class="step"></i><i class="step"></i></div>
+   <div class="steps" id="progress"></div>
   </section>
   <section class="panel">
    <h2 class="panel-title">Try a demonstration</h2>
@@ -162,7 +162,7 @@ const cases={
   ["13:43","YELLOW","An unusual change has been detected. Stay alert and prepare in case conditions worsen.","Be prepared","Keep essentials nearby, check on family members and monitor updates. You do not need to evacuate yet in this scenario.","Water-level change is unusual, but supporting signals are not yet consistent.","yellow"],
   ["13:46","YELLOW","The signal is being checked. Maintain readiness while monitoring continues.","Remain prepared","Stay near your current safe area and wait for the next update.","The system is checking whether the anomaly persists.","yellow"],
   ["13:49","CANCELLED","The unusual readings have returned to normal. The warning is cancelled.","Warning cancelled","No evacuation is advised in this scenario. Continue to monitor local updates.","The anomaly has subsided and the other indicators do not support an ongoing flood threat.","blue"],
-  ["13:52","BLUE","The alert has been cancelled. Continue monitoring official updates.","Prepare to evacuate","The warning has been cancelled in this simulation. Continue monitoring official updates.","The cancellation condition has been met after sustained recovery.","green"]
+  ["13:52","BLUE","The false alarm has cleared. Monitoring has returned to normal.","Monitor updates","No evacuation was needed in this scenario. Continue to follow official updates.","The unusual reading did not persist, so monitoring returned to the normal Blue level.","green"]
  ],
  flood:[
   ["13:40","BLUE","No immediate flood warning. Prepare to evacuate.","Prepare to evacuate","Keep your phone available and follow official updates.","Blue warning is active. Prepare to evacuate.","blue"],
@@ -185,7 +185,7 @@ function render(){
  $("phoneActionTitle").textContent=status==="BLUE"?"Prepare to evacuate":status==="YELLOW"?"Be ready to leave":status==="RED"?"Evacuate now":"Alert cancelled";
  $("phoneAction").textContent=status==="BLUE"?"Check your route, keep essential items ready, and stay alert for the next instruction.":status==="YELLOW"?"Stay ready, keep your phone with you, and follow the next instruction.":status==="RED"?"Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater.":"The alert has been cancelled in this simulation. Keep official alerts enabled.";
  $("advice").className="action "+s[6];$("advice").innerHTML="<strong>"+s[3]+"</strong><p>"+s[4]+"</p>";$("reason").textContent=s[5];
- const steps=$("progress").children;for(let i=0;i<steps.length;i++)steps[i].className="step"+(i<=step?" done":"");
+ const n=cases[selected].length;$("progress").innerHTML=Array.from({length:n},(_,i)=>`<i class="step${i<=step?" done":""}"></i>`).join("");
  $("next").disabled=step>=cases[selected].length-1;$("next").textContent=step>=cases[selected].length-1?"Scenario complete":"Next update →";
 }
 function choose(key){selected=key;step=0;document.querySelectorAll(".scenario").forEach(b=>b.classList.toggle("active",b.dataset.case===key));render()}
