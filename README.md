@@ -25,6 +25,13 @@ Gyirong FloodGuard 是一个交互式原型,用于演示一套面向社区的洪
 - **Operator Control Panel:** Allows users to control and reset the demonstration.
 - **操作员控制面板:** 允许用户控制和重置演示。
 
+
+## Project Access
+## 项目访问
+
+**Interactive Demo:** [Open Gyirong FloodGuard](https://a-mosquito-bot.github.io/gyirong-floodguard/)
+**交互式演示:** [打开 Gyirong FloodGuard](https://a-mosquito-bot.github.io/gyirong-floodguard/)
+
 ## How to Use
 ## 使用方法
 
@@ -63,9 +70,3 @@ Gyirong FloodGuard 是一个交互式原型,用于演示一套面向社区的洪
 
 This is an academic demonstration prototype. All readings, locations, evacuation routes, and scenario outcomes are simulated. The displayed destinations and travel times are illustrative and have not been verified for real-world emergency use.
 这是一个学术演示原型。所有读数、位置、疏散路线和情景结果均为模拟。所显示的目的地和行程时间仅作示意,未经真实应急场景验证。
-
-## Project Access
-## 项目访问
-
-**Interactive Demo:** [Open Gyirong FloodGuard](https://YOUR-GITHUB-USERNAME.github.io/gyirong-floodguard-demo/)
-**交互式演示:** [打开 Gyirong FloodGuard](https://YOUR-GITHUB-USERNAME.github.io/gyirong-floodguard-demo/)
