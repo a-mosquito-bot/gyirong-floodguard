@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gyirong FloodGuard</title>
+<style>
+:root{--navy:#10283a;--blue:#287fba;--yellow:#e5ad36;--red:#d94d55;--green:#278c70;--ink:#172b3b;--muted:#6d8090;--line:#dce5eb;--bg:#f2f6f8;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.45 Inter,Arial,sans-serif;color:var(--ink)}
+.app{max-width:1120px;margin:auto;padding:22px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.logo{font-weight:900;letter-spacing:.12em;color:var(--navy)}.logo span{color:var(--blue)}.demo{font-size:11px;color:var(--muted);background:#e7eef3;border-radius:30px;padding:6px 10px}
+.intro{margin-bottom:17px}.intro h1{font-size:27px;margin:0 0 3px;color:var(--navy)}.intro p{margin:0;color:var(--muted);font-size:13px}
+.status{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 14px #17334b0a}.status-icon{width:45px;height:45px;border-radius:13px;background:#e6f2fa;display:grid;place-items:center;font-size:23px}.status-name{font-size:22px;font-weight:850;letter-spacing:.02em}.status-desc{font-size:13px;color:var(--muted);margin-top:2px}.status-time{margin-left:auto;text-align:right;color:var(--muted);font-size:11px}.status-time b{display:block;color:var(--ink);font-size:18px}
+.grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:16px;margin-top:14px}.column{display:grid;gap:16px;align-content:start}.panel{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:0 3px 14px #17334b08}.panel-title{font-size:12px;letter-spacing:.1em;font-weight:850;color:#536a7c;margin:0 0 13px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.map{border-radius:11px;overflow:hidden;background:#e8f0eb;border:1px solid #d9e4df}.map svg{display:block;width:100%;height:auto}.map-note{font-size:10px;color:var(--muted);margin-top:7px}
+.place{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:9px;display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.place.primary{border-color:#80b5d7;background:#f4faff}.place h3{font-size:14px;margin:0 0 3px}.place p{font-size:11px;color:var(--muted);margin:0}.eta{text-align:right;font-weight:800;font-size:17px;color:var(--navy)}.eta small{display:block;font-size:10px;font-weight:500;color:var(--muted)}.tag{font-size:9px;font-weight:800;color:#236b9a;background:#e0f0fa;padding:4px 7px;border-radius:30px;margin-left:5px}
+.action{border-radius:12px;padding:14px;background:#f4f8fb;border:1px solid var(--line)}.action strong{display:block;font-size:15px;margin-bottom:4px}.action p{margin:0;color:var(--muted);font-size:12px}.action.red{background:#fff5f5;border-color:#f0c9cb}.action.yellow{background:#fffaf0;border-color:#f0dfb6}.action.green{background:#f1faf6;border-color:#cce8dc}.action.blue{background:#f1f8fd;border-color:#c9dfed}
+.buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:9px;padding:12px 16px;font-size:13px;font-weight:800;cursor:pointer;background:#e8eef3;color:#29465d}.btn.main{background:var(--navy);color:white}.btn:hover{filter:brightness(.96)}
+.scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.scenario{border:1px solid var(--line);border-radius:10px;background:#fff;padding:13px;text-align:left;cursor:pointer;color:var(--ink);min-height:78px}.scenario.active{border-color:#5a9bc5;background:#f2f9fe;box-shadow:inset 0 0 0 1px #5a9bc533}.scenario b{font-size:12px;display:block}.scenario span{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.steps{display:flex;gap:6px;margin-top:14px}.step{height:5px;flex:1;border-radius:9px;background:#e4ebf0}.step.done{background:var(--blue)}.foot{font-size:10px;color:#8494a1;text-align:center;padding:17px 0}
+@media(max-width:760px){.app{padding:13px}.grid{grid-template-columns:1fr}.intro h1{font-size:23px}.status{padding:13px}.status-name{font-size:19px}.scenarios{grid-template-columns:1fr}.status-time{font-size:10px}}
+
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.desktop-area{min-width:0}
+.phone-area{position:sticky;top:18px;background:#e8eef2;border:1px solid #d4dfe6;border-radius:18px;padding:17px;display:grid;justify-items:center}
+.phone-heading{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.phone-heading b{display:block;font-size:11px;letter-spacing:.1em;color:#41596c}
+.phone-heading small{display:block;font-size:10px;color:#8293a0;margin-top:3px}
+.live-pill{font-size:8px;font-weight:900;letter-spacing:.07em;color:#287fba;background:#dceefa;padding:5px 7px;border-radius:20px}
+.phone-frame{width:260px;background:#17232e;border:6px solid #17232e;border-radius:32px;padding:5px;box-shadow:0 12px 30px #18334a26}
+.phone-screen{background:#f5f8fa;border-radius:23px;min-height:525px;overflow:hidden;position:relative;padding:14px 12px 45px}
+.phone-notch{width:76px;height:13px;border-radius:0 0 10px 10px;background:#17232e;position:absolute;top:0;left:50%;transform:translateX(-50%)}
+.phone-top{display:flex;justify-content:space-between;font-size:8px;font-weight:900;letter-spacing:.07em;color:#314c60;padding-top:8px}
+.phone-greeting{margin-top:17px;background:#fff;border:1px solid #e0e7ec;border-radius:12px;padding:11px}
+.phone-greeting small,.phone-card small{font-size:8px;font-weight:900;letter-spacing:.1em;color:#7b8d9b}
+.phone-status{font-size:19px;font-weight:950;margin-top:4px;color:#287fba}
+.phone-status.yellow{color:#b47b0b}.phone-status.red{color:#c43b45}.phone-status.cancelled{color:#278c70}
+.phone-greeting p{font-size:10px;color:#657b8c;margin:4px 0 0}
+.phone-map{margin-top:9px;border-radius:10px;overflow:hidden;border:1px solid #dce5e8}
+.phone-map svg{display:block;width:100%}
+.phone-card{background:#fff;border:1px solid #dfe7ec;border-radius:10px;padding:9px;margin-top:8px}
+.phone-card b{display:block;font-size:10px;margin-top:4px}
+.phone-meta{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#748796;margin-top:5px}
+.phone-meta strong{font-size:9px;color:#236b9a}
+.phone-route{font-size:9px;font-weight:900;color:#287fba;margin-top:7px}
+.phone-instruction{background:#eaf3f9;border:1px solid #cbdfea;border-radius:10px;padding:9px;margin-top:8px}
+.phone-instruction b{font-size:10px;color:#1d4f70}
+.phone-instruction p{font-size:9px;line-height:1.4;color:#526d80;margin:4px 0 0}
+.phone-bottom{position:absolute;bottom:0;left:0;right:0;height:39px;background:white;border-top:1px solid #e0e7ec;display:flex;justify-content:space-around;align-items:center;color:#4c6c82;font-size:13px}
+.phone-bottom span{text-align:center}.phone-bottom small{display:block;font-size:7px}
+.phone-caption{font-size:9px;color:#718493;line-height:1.4;margin:11px 3px 0}
+@media(max-width:1080px){.workspace{grid-template-columns:minmax(0,1fr) 300px}.phone-frame{width:245px}}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.phone-area{position:static;max-width:360px;margin:0 auto;width:100%}.phone-frame{width:260px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header"><div class="logo">GYIRONG <span>FLOODGUARD</span></div><div class="demo">SIMULATION DEMO</div></header>
+<section class="intro"><h1>Community Flood Safety</h1><p>Early warning. Clear next steps. Local evacuation guidance.</p></section>
+<section class="status">
+ <div class="status-icon" id="statusIcon">✓</div>
+ <div><div class="status-name" id="statusName">BLUE · WARNING</div><div class="status-desc" id="statusDesc">Blue warning issued. Prepare to evacuate and review your nearest safe route.</div></div>
+ <div class="status-time"><b id="clock">13:40</b>SIMULATION TIME</div>
+</section>
+<div class="workspace">
+ <div class="desktop-area">
+ <section class="panel operator-intro" style="margin-bottom:14px;border-left:5px solid #287fba;background:#fafdff">
+  <div style="font-size:12px;font-weight:900;letter-spacing:.1em;color:#236b9a">LEFT SIDE · OPERATOR CONTROL PANEL</div>
+  <p style="margin:6px 0 0;font-size:13px;color:#526a7c;line-height:1.55">Use this desktop panel to choose a demonstration scenario, advance the simulation step by step, and reset it. These controls are for the person presenting or testing the model—not for residents.</p>
+ </section>
+ <div class="grid">
+ <main class="column">
+  <section class="panel">
+   <h2 class="panel-title">Your location & nearby safe places <span style="color:#8294a2;font-size:9px">DEMO MAP</span></h2>
+   <div class="map"><svg viewBox="0 0 700 350" role="img" aria-label="Illustrative local map showing your location and two shelters">
+    <rect width="700" height="350" fill="#eaf1ec"/>
+    <path d="M0 80 Q130 30 235 100 T470 95 T740 75" fill="none" stroke="#c7d8ce" stroke-width="42"/>
+    <path d="M-10 220 Q110 180 205 222 T390 215 T710 225" fill="none" stroke="#b5d5e6" stroke-width="30"/>
+    <path d="M0 80 Q130 30 235 100 T470 95 T740 75" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 8"/>
+    <path d="M-10 220 Q110 180 205 222 T390 215 T710 225" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8 8"/>
+    <path d="M105 290 L175 250 L260 238 L380 155 L525 125" fill="none" stroke="#278c70" stroke-width="6" stroke-linecap="round"/>
+    <path d="M105 290 L210 285 L330 270 L465 255 L590 215" fill="none" stroke="#287fba" stroke-width="5" stroke-dasharray="9 7" stroke-linecap="round"/>
+    <circle cx="105" cy="290" r="12" fill="#287fba" stroke="white" stroke-width="4"/>
+    <text x="125" y="298" font-size="15" font-weight="700" fill="#18354a">YOU ARE HERE</text>
+    <circle cx="525" cy="125" r="10" fill="#278c70" stroke="white" stroke-width="3"/><text x="540" y="120" font-size="13" font-weight="700" fill="#1b644f">Shelter A</text>
+    <circle cx="590" cy="215" r="10" fill="#287fba" stroke="white" stroke-width="3"/><text x="605" y="220" font-size="13" font-weight="700" fill="#1c5f8d">Shelter B</text>
+    <text x="20" y="28" font-size="11" fill="#738a7c">HILLSIDE</text><text x="20" y="190" font-size="11" fill="#5d8ba5">RIVER</text>
+   </svg></div>
+   <div class="map-note">Illustrative map and routes for the prototype. Replace with verified local map data before real-world use.</div>
+  </section>
+  <section class="panel">
+   <h2 class="panel-title">Recommended safe places</h2>
+   <div class="place primary"><div><h3>Upper Terrace Community Hall <span class="tag">RECOMMENDED</span></h3><p>Higher-ground shelter · Main route via hillside road</p></div><div class="eta">3 min<small>walking estimate</small></div></div>
+   <div class="place"><div><h3>Ridge Primary School</h3><p>Alternative shelter · Secondary uphill route</p></div><div class="eta">5 min<small>walking estimate</small></div></div>
+   <p class="map-note">Both destinations are fixed demo locations. Occupancy and capacity are illustrative placeholders.</p>
+  </section>
+ </main>
+ <aside class="column">
+  <section class="panel">
+   <h2 class="panel-title">What should you do?</h2>
+   <div class="action green" id="advice"><strong>Prepare to evacuate</strong><p>Check your evacuation route, keep essential items ready, and stay alert for the next instruction.</p></div>
+   <div class="buttons"><button class="btn main" id="next">Next update →</button><button class="btn" id="reset">Reset demo</button></div>
+   <div class="steps" id="progress"><i class="step done"></i><i class="step"></i><i class="step"></i><i class="step"></i></div>
+  </section>
+  <section class="panel">
+   <h2 class="panel-title">Try a demonstration</h2>
+   <div class="scenarios">
+    <button class="scenario active" data-case="normal"><b>1. Normal conditions</b><span>Blue warning: prepare to evacuate.</span></button>
+    <button class="scenario" data-case="false"><b>2. False alarm</b><span>An anomaly appears, then clears.</span></button>
+    <button class="scenario" data-case="flood"><b>3. Flood develops</b><span>Risk increases and evacuation is advised.</span></button>
+   </div>
+  </section>
+  <section class="panel">
+   <h2 class="panel-title">Why did the alert change?</h2>
+   <div id="reason" style="font-size:12px;color:#526a7c">The system is at Blue warning level. Residents should prepare to evacuate.</div>
+  </section>
+ </aside>
+</div>
+ </div>
+ <aside class="phone-area">
+  <div class="phone-heading"><div><b>RIGHT SIDE · RESIDENT PHONE PLUGIN</b><small>Resident-facing interface preview</small></div><span class="live-pill">LIVE PREVIEW</span></div>
+  <p class="phone-caption" style="width:100%;margin:0 2px 12px">This is the interface residents receive. It displays the current alert, two evacuation route options, and the recommended action. Residents cannot control or advance the simulation here.</p>
+  <div class="phone-frame">
+   <div class="phone-screen">
+    <div class="phone-notch"></div>
+    <div class="phone-top"><span>GYIRONG FLOODGUARD</span><span>● ● ●</span></div>
+    <div class="phone-greeting"><small>EMERGENCY STATUS</small><div id="phoneStatus" class="phone-status blue">BLUE WARNING</div><p id="phoneSummary">Prepare to evacuate. Review your nearest safe route.</p></div>
+    <div class="phone-map">
+     <svg viewBox="0 0 300 155" role="img" aria-label="Simplified evacuation map showing two routes from your location to two possible safe places">
+      <rect width="300" height="155" fill="#eaf1ec"/>
+      <path d="M-10 48 Q60 10 120 48 T320 40" fill="none" stroke="#c5d8cc" stroke-width="25"/>
+      <path d="M-10 105 Q60 75 120 105 T320 98" fill="none" stroke="#b5d5e6" stroke-width="19"/>
+      <path d="M35 130 L90 110 L145 95 L205 45 L255 35" fill="none" stroke="#278c70" stroke-width="5" stroke-linecap="round"/>
+      <path d="M35 130 L92 137 L150 130 L212 112 L265 92" fill="none" stroke="#287fba" stroke-width="4" stroke-dasharray="7 5" stroke-linecap="round"/>
+      <circle cx="35" cy="130" r="7" fill="#287fba" stroke="#fff" stroke-width="3"/>
+      <circle cx="255" cy="35" r="7" fill="#278c70" stroke="#fff" stroke-width="3"/>
+      <circle cx="265" cy="92" r="7" fill="#287fba" stroke="#fff" stroke-width="3"/>
+      <text x="47" y="119" font-size="8" fill="#18354a" font-weight="700">YOU</text>
+      <text x="178" y="20" font-size="8" fill="#1b644f" font-weight="700">ROUTE A</text>
+      <text x="190" y="109" font-size="8" fill="#1c5f8d" font-weight="700">ROUTE B</text>
+     </svg>
+    </div>
+    <div class="phone-card"><small>ROUTE A · RECOMMENDED PLACE</small><b>Upper Terrace Community Hall</b><div class="phone-meta"><span>Higher ground</span><strong>3 min walk</strong></div><div class="phone-route">Route A · Green solid line</div></div>
+    <div class="phone-card secondary"><small>ROUTE B · ALTERNATIVE PLACE</small><b>Ridge Primary School</b><div class="phone-meta"><span>Higher ground</span><strong>5 min walk</strong></div><div class="phone-route" style="color:#287fba">Route B · Blue dashed line</div></div>
+    <div class="phone-instruction"><b id="phoneActionTitle">Prepare to evacuate</b><p id="phoneAction">Check your route, keep essential items ready, and stay alert for the next instruction.</p></div>
+    <div class="phone-bottom"><span>⌂<small>Home</small></span><span>⌖<small>Map</small></span><span>ⓘ<small>Alerts</small></span></div>
+   </div>
+  </div>
+  <p class="phone-caption">Resident view only: this phone preview has no scenario selector or simulation controls.</p>
+ </aside>
+</div>
+<div class="foot">ACADEMIC PROTOTYPE · ALL READINGS, LOCATIONS AND ROUTES ARE SIMULATED · NOT FOR REAL-WORLD EMERGENCY NAVIGATION</div>
+</div>
+<script>
+const cases={
+ normal:[
+  ["13:40","BLUE","Blue warning issued. Prepare to evacuate and review your nearest safe route.","Prepare to evacuate","Check your evacuation route, keep essential items ready, and stay alert for the next instruction.","The system is at Blue warning level. Residents should prepare to evacuate.","blue"],
+  ["13:43","BLUE","Monitoring continues. No significant change has been detected.","Prepare to evacuate","Keep essentials ready, check your route, and be prepared to leave when instructed.","The warning remains at Blue. Keep your evacuation plan ready.","blue"],
+  ["13:46","BLUE","Conditions remain stable in this demonstration.","Prepare to evacuate","Prepare essential belongings and make sure household members know the safe route.","Blue warning is active. Review the evacuation route and prepare to leave.","green"]
+ ],
+ false:[
+  ["13:40","BLUE","No immediate flood warning. Prepare to evacuate.","Prepare to evacuate","Keep your phone available and follow official updates.","Blue warning is active. Prepare to evacuate.","blue"],
+  ["13:43","YELLOW","An unusual change has been detected. Stay alert and prepare in case conditions worsen.","Be prepared","Keep essentials nearby, check on family members and monitor updates. You do not need to evacuate yet in this scenario.","Water-level change is unusual, but supporting signals are not yet consistent.","yellow"],
+  ["13:46","YELLOW","The signal is being checked. Maintain readiness while monitoring continues.","Remain prepared","Stay near your current safe area and wait for the next update.","The system is checking whether the anomaly persists.","yellow"],
+  ["13:49","CANCELLED","The unusual readings have returned to normal. The warning is cancelled.","Warning cancelled","No evacuation is advised in this scenario. Continue to monitor local updates.","The anomaly has subsided and the other indicators do not support an ongoing flood threat.","blue"],
+  ["13:52","BLUE","The alert has been cancelled. Continue monitoring official updates.","Prepare to evacuate","The warning has been cancelled in this simulation. Continue monitoring official updates.","The cancellation condition has been met after sustained recovery.","green"]
+ ],
+ flood:[
+  ["13:40","BLUE","No immediate flood warning. Prepare to evacuate.","Prepare to evacuate","Keep your phone available and follow official updates.","Blue warning is active. Prepare to evacuate.","blue"],
+  ["13:43","YELLOW","Several warning signs are increasing. Prepare to move to a safe place if instructed.","Prepare to evacuate","Gather essential items, assist children and older family members, and review the recommended uphill route.","Multiple indicators are changing together. The system has raised the alert to Yellow.","yellow"],
+  ["13:46","RED","Flood danger is high. Leave the hazard area now using the recommended safe route.","EVACUATE NOW","Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater. Follow local emergency personnel.","Severe and corroborating warning signals meet the simulated Red condition.","red"],
+  ["13:49","RED","The evacuation warning remains active. Continue to the designated safe place.","Continue evacuation","Stay on the recommended uphill route and follow instructions from local authorities.","The simulated danger condition remains elevated.","red"]
+ ]
+};
+let selected="normal",step=0;
+const $=id=>document.getElementById(id);
+function render(){
+ const s=cases[selected][step],status=s[1],colors={BLUE:"#287fba",YELLOW:"#e5ad36",RED:"#d94d55",CANCELLED:"#278c70"};
+ $("clock").textContent=s[0];$("statusName").textContent=status==="CANCELLED"?"ALERT CANCELLED":status+" · "+(status==="BLUE"?"WARNING":status==="YELLOW"?"BE ALERT": "EVACUATE");
+ $("statusName").style.color=colors[status];$("statusIcon").textContent=status==="RED"?"!":status==="YELLOW"?"⚠":status==="CANCELLED"?"✓":"✓";$("statusIcon").style.background=status==="RED"?"#fde8e9":status==="YELLOW"?"#fff4d9":"#e6f2fa";
+ $("statusDesc").textContent=s[2];
+ const pStatus=$("phoneStatus"),pSummary=$("phoneSummary");
+ pStatus.textContent=status==="CANCELLED"?"ALERT CANCELLED":status+" WARNING";
+ pStatus.className="phone-status "+(status==="RED"?"red":status==="YELLOW"?"yellow":status==="CANCELLED"?"cancelled":"blue");
+ pSummary.textContent=status==="BLUE"?"Blue warning. Prepare to evacuate and review your safe route.":status==="YELLOW"?"Yellow warning. Stay alert and be ready to leave immediately.":status==="RED"?"Red warning. Evacuate now using the recommended safe route.":"The warning has been cancelled. Continue monitoring official updates.";
+ $("phoneActionTitle").textContent=status==="BLUE"?"Prepare to evacuate":status==="YELLOW"?"Be ready to leave":status==="RED"?"Evacuate now":"Alert cancelled";
+ $("phoneAction").textContent=status==="BLUE"?"Check your route, keep essential items ready, and stay alert for the next instruction.":status==="YELLOW"?"Stay ready, keep your phone with you, and follow the next instruction.":status==="RED"?"Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater.":"The alert has been cancelled in this simulation. Keep official alerts enabled.";
+ $("advice").className="action "+s[6];$("advice").innerHTML="<strong>"+s[3]+"</strong><p>"+s[4]+"</p>";$("reason").textContent=s[5];
+ const steps=$("progress").children;for(let i=0;i<steps.length;i++)steps[i].className="step"+(i<=step?" done":"");
+ $("next").disabled=step>=cases[selected].length-1;$("next").textContent=step>=cases[selected].length-1?"Scenario complete":"Next update →";
+}
+function choose(key){selected=key;step=0;document.querySelectorAll(".scenario").forEach(b=>b.classList.toggle("active",b.dataset.case===key));render()}
+document.querySelectorAll(".scenario").forEach(b=>b.onclick=()=>choose(b.dataset.case));
+$("next").onclick=()=>{if(step<cases[selected].length-1){step++;render()}};
+$("reset").onclick=()=>{step=0;render()};
+render();
+</script>
+</body>
+</html>
