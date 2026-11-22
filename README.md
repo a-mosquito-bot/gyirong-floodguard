@@ -67,5 +67,5 @@ This is an academic demonstration prototype. All readings, locations, evacuation
 ## Project Access
 ## 项目访问
 
-**Interactive Demo:** [Open Gyirong FloodGuard](https://YOUR-GITHUB-USERNAME.github.io/gyirong-floodguard-demo/)
-**交互式演示:** [打开 Gyirong FloodGuard](https://YOUR-GITHUB-USERNAME.github.io/gyirong-floodguard-demo/)
+**Interactive Demo:** [Open Gyirong FloodGuard](https://a-mosquito-bot.github.io/gyirong-floodguard/)
+**交互式演示:** [打开 Gyirong FloodGuard](https://a-mosquito-bot.github.io/gyirong-floodguard/)
