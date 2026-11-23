@@ -1,30 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gyirong FloodGuard</title>
+<title>Gyirong FloodGuard · 吉隆防洪卫士</title>
 <style>
 :root{--navy:#10283a;--blue:#287fba;--yellow:#e5ad36;--red:#d94d55;--green:#278c70;--ink:#172b3b;--muted:#6d8090;--line:#dce5eb;--bg:#f2f6f8;--white:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.45 Inter,Arial,sans-serif;color:var(--ink)}
-.app{max-width:1120px;margin:auto;padding:22px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.logo{font-weight:900;letter-spacing:.12em;color:var(--navy)}.logo span{color:var(--blue)}.demo{font-size:11px;color:var(--muted);background:#e7eef3;border-radius:30px;padding:6px 10px}
+.app{max-width:1120px;margin:auto;padding:22px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.logo{font-weight:900;letter-spacing:.12em;color:var(--navy)}.logo span{color:var(--blue)}.header-right{display:flex;align-items:center;gap:10px}.demo{font-size:11px;color:var(--muted);background:#e7eef3;border-radius:30px;padding:6px 10px}
+.lang-switch{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}.lang-opt{border:0;padding:7px 12px;font-size:12px;font-weight:800;cursor:pointer;background:#fff;color:#6d8090}.lang-opt.active{background:var(--navy);color:#fff}
 .intro{margin-bottom:17px}.intro h1{font-size:27px;margin:0 0 3px;color:var(--navy)}.intro p{margin:0;color:var(--muted);font-size:13px}
+.howto{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px 20px;margin-bottom:14px;box-shadow:0 3px 14px #17334b08}.howto h2{font-size:12px;letter-spacing:.1em;font-weight:850;color:#536a7c;margin:0 0 12px;text-transform:uppercase}.howto-steps{counter-reset:h;list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0;padding:0}.howto-steps li{background:#f4f8fb;border:1px solid var(--line);border-radius:11px;padding:11px 11px 11px 41px;position:relative}.howto-steps li::before{counter-increment:h;content:counter(h);position:absolute;left:11px;top:11px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}.howto-steps b{display:block;font-size:13px;color:var(--navy)}.howto-steps span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
 .status{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 14px #17334b0a}.status-icon{width:45px;height:45px;border-radius:13px;background:#e6f2fa;display:grid;place-items:center;font-size:23px}.status-name{font-size:22px;font-weight:850;letter-spacing:.02em}.status-desc{font-size:13px;color:var(--muted);margin-top:2px}.status-time{margin-left:auto;text-align:right;color:var(--muted);font-size:11px}.status-time b{display:block;color:var(--ink);font-size:18px}
-.grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:16px;margin-top:14px}.column{display:grid;gap:16px;align-content:start}.panel{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:0 3px 14px #17334b08}.panel-title{font-size:12px;letter-spacing:.1em;font-weight:850;color:#536a7c;margin:0 0 13px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:12px;margin-top:14px}.column{display:grid;gap:10px;align-content:start}.panel{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:14px;box-shadow:0 3px 14px #17334b08}.panel.compact{padding:11px}.scenario-panel{border-left:5px solid #287fba;background:#fbfdff}.panel-title{font-size:12px;letter-spacing:.1em;font-weight:850;color:#536a7c;margin:0 0 10px;text-transform:uppercase;display:flex;justify-content:flex-start;align-items:center;gap:8px}
 .map{border-radius:11px;overflow:hidden;background:#e8f0eb;border:1px solid #d9e4df}.map svg{display:block;width:100%;height:auto}.map-note{font-size:10px;color:var(--muted);margin-top:7px}
 .place{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:9px;display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.place.primary{border-color:#80b5d7;background:#f4faff}.place h3{font-size:14px;margin:0 0 3px}.place p{font-size:11px;color:var(--muted);margin:0}.eta{text-align:right;font-weight:800;font-size:17px;color:var(--navy)}.eta small{display:block;font-size:10px;font-weight:500;color:var(--muted)}.tag{font-size:9px;font-weight:800;color:#236b9a;background:#e0f0fa;padding:4px 7px;border-radius:30px;margin-left:5px}
 .action{border-radius:12px;padding:14px;background:#f4f8fb;border:1px solid var(--line)}.action strong{display:block;font-size:15px;margin-bottom:4px}.action p{margin:0;color:var(--muted);font-size:12px}.action.red{background:#fff5f5;border-color:#f0c9cb}.action.yellow{background:#fffaf0;border-color:#f0dfb6}.action.green{background:#f1faf6;border-color:#cce8dc}.action.blue{background:#f1f8fd;border-color:#c9dfed}
 .buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:9px;padding:12px 16px;font-size:13px;font-weight:800;cursor:pointer;background:#e8eef3;color:#29465d}.btn.main{background:var(--navy);color:white}.btn:hover{filter:brightness(.96)}
-.scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.scenario{border:1px solid var(--line);border-radius:10px;background:#fff;padding:13px;text-align:left;cursor:pointer;color:var(--ink);min-height:78px}.scenario.active{border-color:#5a9bc5;background:#f2f9fe;box-shadow:inset 0 0 0 1px #5a9bc533}.scenario b{font-size:12px;display:block}.scenario span{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.scenario{border:1px solid var(--line);border-radius:12px;background:#fff;padding:18px;text-align:left;cursor:pointer;color:var(--ink);min-height:120px}.scenario.active{border-color:#5a9bc5;background:#f2f9fe;box-shadow:inset 0 0 0 2px #5a9bc544}.scenario b{font-size:15px;display:block}.scenario span{font-size:11px;color:var(--muted);display:block;margin-top:6px}
 .steps{display:flex;gap:6px;margin-top:14px}.step{height:5px;flex:1;border-radius:9px;background:#e4ebf0}.step.done{background:var(--blue)}.foot{font-size:10px;color:#8494a1;text-align:center;padding:17px 0}
-@media(max-width:760px){.app{padding:13px}.grid{grid-template-columns:1fr}.intro h1{font-size:23px}.status{padding:13px}.status-name{font-size:19px}.scenarios{grid-template-columns:1fr}.status-time{font-size:10px}}
+@media(max-width:760px){.app{padding:13px}.grid{grid-template-columns:1fr}.intro h1{font-size:23px}.status{padding:13px}.status-name{font-size:19px}.scenarios{grid-template-columns:1fr}.status-time{font-size:10px}.howto-steps{grid-template-columns:1fr 1fr}.header{flex-wrap:wrap;gap:10px}}
+@media(max-width:520px){.howto-steps{grid-template-columns:1fr}}
 
-.workspace{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
 .desktop-area{min-width:0}
+.role-banner{display:flex;gap:12px;align-items:center;border-radius:13px;padding:14px 16px;margin-bottom:14px;border:1px solid}.role-banner.back{background:#eaf4fb;border-color:#b9d6ea}.role-icon{font-size:26px}.role-label{font-size:14px;font-weight:900;letter-spacing:.05em;color:#1d5a86}.role-desc{margin:4px 0 0;font-size:12px;color:#526a7c;line-height:1.5}
 .phone-area{position:sticky;top:18px;background:#e8eef2;border:1px solid #d4dfe6;border-radius:18px;padding:17px;display:grid;justify-items:center}
-.phone-heading{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.phone-heading b{display:block;font-size:11px;letter-spacing:.1em;color:#41596c}
-.phone-heading small{display:block;font-size:10px;color:#8293a0;margin-top:3px}
-.live-pill{font-size:8px;font-weight:900;letter-spacing:.07em;color:#287fba;background:#dceefa;padding:5px 7px;border-radius:20px}
+.phone-heading{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;background:#eaf7f1;border:1px solid #b9e2cf;border-radius:12px;padding:12px 14px}
+.phone-heading b{display:block;font-size:12px;letter-spacing:.05em;color:#1b6b4f}
+.phone-heading small{display:block;font-size:10px;color:#5a8a78;margin-top:3px}
+.live-pill{font-size:8px;font-weight:900;letter-spacing:.07em;color:#1b6b4f;background:#d5efe2;padding:5px 7px;border-radius:20px}
 .phone-frame{width:260px;background:#17232e;border:6px solid #17232e;border-radius:32px;padding:5px;box-shadow:0 12px 30px #18334a26}
 .phone-screen{background:#f5f8fa;border-radius:23px;min-height:525px;overflow:hidden;position:relative;padding:14px 12px 45px}
 .phone-notch{width:76px;height:13px;border-radius:0 0 10px 10px;background:#17232e;position:absolute;top:0;left:50%;transform:translateX(-50%)}
@@ -47,7 +51,7 @@
 .phone-bottom{position:absolute;bottom:0;left:0;right:0;height:39px;background:white;border-top:1px solid #e0e7ec;display:flex;justify-content:space-around;align-items:center;color:#4c6c82;font-size:13px}
 .phone-bottom span{text-align:center}.phone-bottom small{display:block;font-size:7px}
 .phone-caption{font-size:9px;color:#718493;line-height:1.4;margin:11px 3px 0}
-@media(max-width:1080px){.workspace{grid-template-columns:minmax(0,1fr) 300px}.phone-frame{width:245px}}
+@media(max-width:1080px){.phone-frame{width:245px}}
 @media(max-width:850px){.workspace{grid-template-columns:1fr}.phone-area{position:static;max-width:360px;margin:0 auto;width:100%}.phone-frame{width:260px}}
 .phone-eta{background:#fff;border:1px solid #e0e7ec;border-radius:12px;padding:11px;margin-top:8px}
 .phone-eta small{font-size:8px;font-weight:900;letter-spacing:.1em;color:#7b8d9b}
@@ -65,23 +69,62 @@
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">GYIRONG <span>FLOODGUARD</span></div><div class="demo">SIMULATION DEMO</div></header>
-<section class="intro"><h1>Community Flood Safety</h1><p>Early warning. Clear next steps. Local evacuation guidance.</p></section>
+<header class="header">
+ <div class="logo">GYIRONG <span>FLOODGUARD</span></div>
+ <div class="header-right">
+  <div class="demo" data-i18n="demo">演示模拟</div>
+  <div class="lang-switch"><button class="lang-opt active" data-lang="zh">中文</button><button class="lang-opt" data-lang="en">EN</button></div>
+ </div>
+</header>
+<section class="intro"><h1 data-i18n="introTitle">社区防洪安全</h1><p data-i18n="introSub">提前预警 · 清晰的下一步 · 本地疏散指引。</p></section>
+<section class="howto">
+ <h2 data-i18n="howToTitle">怎么操作这个演示</h2>
+ <ol class="howto-steps">
+  <li><b data-i18n="step1">选一个情景</b><span data-i18n="step1d">点左侧三个情景之一</span></li>
+  <li><b data-i18n="step2">点「下一步」</b><span data-i18n="step2d">逐步推进模拟</span></li>
+  <li><b data-i18n="step3">看预警变化</b><span data-i18n="step3d">预警等级与建议随之改变</span></li>
+  <li><b data-i18n="step4">看手机端</b><span data-i18n="step4d">右侧居民界面同步更新</span></li>
+ </ol>
+</section>
 <section class="status">
  <div class="status-icon" id="statusIcon">✓</div>
- <div><div class="status-name" id="statusName">BLUE · WARNING</div><div class="status-desc" id="statusDesc">Blue warning issued. Prepare to evacuate and review your nearest safe route.</div></div>
- <div class="status-time"><b id="clock">13:40</b>SIMULATION TIME</div>
+ <div><div class="status-name" id="statusName">蓝色 · 预警</div><div class="status-desc" id="statusDesc">已发布蓝色预警。准备疏散,并查看最近的疏散路线。</div></div>
+ <div class="status-time"><b id="clock">13:40</b><span data-i18n="simTime">模拟时间</span></div>
 </section>
 <div class="workspace">
  <div class="desktop-area">
- <section class="panel operator-intro" style="margin-bottom:14px;border-left:5px solid #287fba;background:#fafdff">
-  <div style="font-size:12px;font-weight:900;letter-spacing:.1em;color:#236b9a">后台 BACK-END · OPERATOR CONTROL PANEL</div>
-  <p style="margin:6px 0 0;font-size:13px;color:#526a7c;line-height:1.55">Use this desktop panel to choose a demonstration scenario, advance the simulation step by step, and reset it. These controls are for the person presenting or testing the model—not for residents.</p>
+ <section class="role-banner back">
+  <div class="role-icon">🖥️</div>
+  <div><div class="role-label" data-i18n="backLabel">后端 · 操作员后台</div></div>
+ </section>
+ <section class="panel scenario-panel">
+  <h2 class="panel-title" data-i18n="demoTitle">试试一个情景</h2>
+  <div class="scenarios">
+   <button class="scenario active" data-case="normal"><b data-i18n="s1t">1. 正常情况</b><span data-i18n="s1d">蓝色预警:准备疏散。</span></button>
+   <button class="scenario" data-case="false"><b data-i18n="s2t">2. 假警报</b><span data-i18n="s2d">出现异常,随后解除。</span></button>
+   <button class="scenario" data-case="flood"><b data-i18n="s3t">3. 洪水发展</b><span data-i18n="s3d">风险升高,建议疏散。</span></button>
+  </div>
  </section>
  <div class="grid">
  <main class="column">
   <section class="panel">
-   <h2 class="panel-title">Your location & nearby safe places <span style="color:#8294a2;font-size:9px">DEMO MAP</span></h2>
+   <h2 class="panel-title" data-i18n="doTitle">你应该怎么做?</h2>
+   <div class="action green" id="advice"><strong>准备疏散</strong><p>查看你的疏散路线,备好必需品,留意下一条指示。</p></div>
+   <div class="buttons"><button class="btn main" id="next">下一步 →</button><button class="btn" id="reset" data-i18n="reset">重置演示</button></div>
+   <div class="steps" id="progress"></div>
+  </section>
+  <section class="panel">
+   <h2 class="panel-title"><span data-i18n="etaTitle">洪水到达时间预估</span><span style="color:#8294a2;font-size:9px" data-i18n="etaTag">计算得出的 ETA</span></h2>
+   <div class="op-eta"><span class="op-eta-value blue" id="opEtaValue">—</span><div class="eta-bar"><i class="eta-fill blue" id="opEtaFill" style="width:4%"></i></div><p class="op-eta-note" id="opEtaNote">当前状况下暂无洪水到达时间预估。</p></div>
+  </section>
+  <section class="panel">
+   <h2 class="panel-title" data-i18n="whyTitle">预警为什么变了?</h2>
+   <div id="reason" style="font-size:12px;color:#526a7c">系统处于蓝色预警等级。居民应准备疏散。</div>
+  </section>
+ </main>
+ <aside class="column">
+  <section class="panel compact">
+   <h2 class="panel-title"><span data-i18n="mapTitle">你的位置 & 附近安全地点</span><span style="color:#8294a2;font-size:9px" data-i18n="mapTag">示意地图</span></h2>
    <div class="map"><svg viewBox="0 0 700 350" role="img" aria-label="Illustrative local map showing your location and two shelters">
     <rect width="700" height="350" fill="#eaf1ec"/>
     <path d="M0 80 Q130 30 235 100 T470 95 T740 75" fill="none" stroke="#c7d8ce" stroke-width="42"/>
@@ -91,59 +134,34 @@
     <path d="M105 290 L175 250 L260 238 L380 155 L525 125" fill="none" stroke="#278c70" stroke-width="6" stroke-linecap="round"/>
     <path d="M105 290 L210 285 L330 270 L465 255 L590 215" fill="none" stroke="#287fba" stroke-width="5" stroke-dasharray="9 7" stroke-linecap="round"/>
     <circle cx="105" cy="290" r="12" fill="#287fba" stroke="white" stroke-width="4"/>
-    <text x="125" y="298" font-size="15" font-weight="700" fill="#18354a">YOU ARE HERE</text>
-    <circle cx="525" cy="125" r="10" fill="#278c70" stroke="white" stroke-width="3"/><text x="540" y="120" font-size="13" font-weight="700" fill="#1b644f">Shelter A</text>
-    <circle cx="590" cy="215" r="10" fill="#287fba" stroke="white" stroke-width="3"/><text x="605" y="220" font-size="13" font-weight="700" fill="#1c5f8d">Shelter B</text>
-    <text x="20" y="28" font-size="11" fill="#738a7c">HILLSIDE</text><text x="20" y="190" font-size="11" fill="#5d8ba5">RIVER</text>
+    <text x="125" y="298" font-size="15" font-weight="700" fill="#18354a" data-i18n="mapYou">你在这里</text>
+    <circle cx="525" cy="125" r="10" fill="#278c70" stroke="white" stroke-width="3"/><text x="540" y="120" font-size="13" font-weight="700" fill="#1b644f" data-i18n="shelterA">避难所 A</text>
+    <circle cx="590" cy="215" r="10" fill="#287fba" stroke="white" stroke-width="3"/><text x="605" y="220" font-size="13" font-weight="700" fill="#1c5f8d" data-i18n="shelterB">避难所 B</text>
+    <text x="20" y="28" font-size="11" fill="#738a7c" data-i18n="hillside">山坡</text><text x="20" y="190" font-size="11" fill="#5d8ba5" data-i18n="river">河流</text>
     <path d="M215 205 Q320 180 430 200" fill="none" stroke="#e8a2a2" stroke-width="3" stroke-dasharray="4 4"/>
-    <text x="250" y="188" font-size="10" fill="#b0555b">FLOOD-RISK ZONE</text>
-    <circle cx="175" cy="224" r="5" fill="#e5ad36" stroke="#fff" stroke-width="2"/><text x="186" y="228" font-size="10" fill="#8a6a1a">GAUGE 1</text>
-    <circle cx="340" cy="208" r="5" fill="#e5ad36" stroke="#fff" stroke-width="2"/><text x="351" y="212" font-size="10" fill="#8a6a1a">GAUGE 2</text>
+    <text x="250" y="188" font-size="10" fill="#b0555b" data-i18n="floodZone">洪水风险区</text>
+    <circle cx="175" cy="224" r="5" fill="#e5ad36" stroke="#fff" stroke-width="2"/><text x="186" y="228" font-size="10" fill="#8a6a1a" data-i18n="gauge1">水位计 1</text>
+    <circle cx="340" cy="208" r="5" fill="#e5ad36" stroke="#fff" stroke-width="2"/><text x="351" y="212" font-size="10" fill="#8a6a1a" data-i18n="gauge2">水位计 2</text>
    </svg></div>
-   <div class="map-note">Illustrative map and routes for the prototype. Replace with verified local map data before real-world use.</div>
+   <div class="map-note" data-i18n="mapNote">原型示意地图与路线。实际使用前请替换为核实过的本地地图数据。</div>
   </section>
-  <section class="panel">
-   <h2 class="panel-title">Recommended safe places</h2>
-   <div class="place primary"><div><h3>Upper Terrace Community Hall <span class="tag">RECOMMENDED</span></h3><p>Higher-ground shelter · Main route via hillside road</p></div><div class="eta">3 min<small>walking estimate</small></div></div>
-   <div class="place"><div><h3>Ridge Primary School</h3><p>Alternative shelter · Secondary uphill route</p></div><div class="eta">5 min<small>walking estimate</small></div></div>
-   <p class="map-note">Both destinations are fixed demo locations. Occupancy and capacity are illustrative placeholders.</p>
-  </section>
- </main>
- <aside class="column">
-  <section class="panel">
-   <h2 class="panel-title">Flood arrival estimate <span style="color:#8294a2;font-size:9px">COMPUTED ETA</span></h2>
-   <div class="op-eta"><span class="op-eta-value" id="opEtaValue">—</span><div class="eta-bar"><i class="eta-fill blue" id="opEtaFill" style="width:4%"></i></div><p class="op-eta-note" id="opEtaNote">No flood arrival estimate for the current conditions.</p></div>
-  </section>
-  <section class="panel">
-   <h2 class="panel-title">What should you do?</h2>
-   <div class="action green" id="advice"><strong>Prepare to evacuate</strong><p>Check your evacuation route, keep essential items ready, and stay alert for the next instruction.</p></div>
-   <div class="buttons"><button class="btn main" id="next">Next update →</button><button class="btn" id="reset">Reset demo</button></div>
-   <div class="steps" id="progress"></div>
-  </section>
-  <section class="panel">
-   <h2 class="panel-title">Try a demonstration</h2>
-   <div class="scenarios">
-    <button class="scenario active" data-case="normal"><b>1. Normal conditions</b><span>Blue warning: prepare to evacuate.</span></button>
-    <button class="scenario" data-case="false"><b>2. False alarm</b><span>An anomaly appears, then clears.</span></button>
-    <button class="scenario" data-case="flood"><b>3. Flood develops</b><span>Risk increases and evacuation is advised.</span></button>
-   </div>
-  </section>
-  <section class="panel">
-   <h2 class="panel-title">Why did the alert change?</h2>
-   <div id="reason" style="font-size:12px;color:#526a7c">The system is at Blue warning level. Residents should prepare to evacuate.</div>
+  <section class="panel compact">
+   <h2 class="panel-title" data-i18n="placesTitle">推荐安全地点</h2>
+   <div class="place primary"><div><h3><span data-i18n="place1Name">高地平台社区中心</span> <span class="tag" data-i18n="place1Tag">推荐</span></h3><p data-i18n="place1Desc">高地避难所 · 主路线沿山坡公路</p></div><div class="eta"><span data-i18n="place1Eta">3 分钟</span><small data-i18n="walk">步行预计</small></div></div>
+   <div class="place"><div><h3 data-i18n="place2Name">山脊小学</h3><p data-i18n="place2Desc">备选避难所 · 次选上山路线</p></div><div class="eta"><span data-i18n="place2Eta">5 分钟</span><small data-i18n="walk">步行预计</small></div></div>
+   <p class="map-note" data-i18n="placesNote">两个目的地均为演示固定地点。容量与占用为示意占位。</p>
   </section>
  </aside>
 </div>
  </div>
  <aside class="phone-area">
-  <div class="phone-heading"><div><b>前端 FRONT-END · RESIDENT PHONE INTERFACE</b><small>Resident-facing interface preview</small></div><span class="live-pill">LIVE PREVIEW</span></div>
-  <p class="phone-caption" style="width:100%;margin:0 2px 12px">This is the interface residents receive. It displays the current alert, two evacuation route options, and the recommended action. Residents cannot control or advance the simulation here.</p>
+  <div class="phone-heading"><div><b data-i18n="phoneTitle">前端 · 居民手机界面</b><small data-i18n="phoneSub">居民看到的界面预览</small></div><span class="live-pill" data-i18n="live">实时预览</span></div>
   <div class="phone-frame">
    <div class="phone-screen">
     <div class="phone-notch"></div>
     <div class="phone-top"><span>GYIRONG FLOODGUARD</span><span>● ● ●</span></div>
-    <div class="phone-greeting"><small>EMERGENCY STATUS</small><div id="phoneStatus" class="phone-status blue">BLUE WARNING</div><p id="phoneSummary">Prepare to evacuate. Review your nearest safe route.</p></div>
-    <div class="phone-eta" id="phoneEta"><small>FLOOD ARRIVAL ESTIMATE</small><span class="eta-value blue" id="phoneEtaValue">—</span><div class="eta-bar"><i class="eta-fill blue" id="phoneEtaFill" style="width:4%"></i></div></div>
+    <div class="phone-greeting"><small data-i18n="emgStatus">紧急状态</small><div id="phoneStatus" class="phone-status blue">蓝色预警</div><p id="phoneSummary">蓝色预警。准备疏散,查看你的疏散路线。</p></div>
+    <div class="phone-eta" id="phoneEta"><small data-i18n="floodEtaLabel">洪水到达时间预估</small><span class="eta-value blue" id="phoneEtaValue">—</span><div class="eta-bar"><i class="eta-fill blue" id="phoneEtaFill" style="width:4%"></i></div></div>
     <div class="phone-map">
      <svg viewBox="0 0 300 155" role="img" aria-label="Simplified evacuation map showing two routes from your location to two possible safe places">
       <rect width="300" height="155" fill="#eaf1ec"/>
@@ -154,79 +172,251 @@
       <circle cx="35" cy="130" r="7" fill="#287fba" stroke="#fff" stroke-width="3"/>
       <circle cx="255" cy="35" r="7" fill="#278c70" stroke="#fff" stroke-width="3"/>
       <circle cx="265" cy="92" r="7" fill="#287fba" stroke="#fff" stroke-width="3"/>
-      <text x="47" y="119" font-size="8" fill="#18354a" font-weight="700">YOU</text>
-      <text x="178" y="20" font-size="8" fill="#1b644f" font-weight="700">ROUTE A</text>
-      <text x="190" y="109" font-size="8" fill="#1c5f8d" font-weight="700">ROUTE B</text>
+      <text x="47" y="119" font-size="8" fill="#18354a" font-weight="700" data-i18n="you">你</text>
+      <text x="178" y="20" font-size="8" fill="#1b644f" font-weight="700" data-i18n="routeA">路线 A</text>
+      <text x="190" y="109" font-size="8" fill="#1c5f8d" font-weight="700" data-i18n="routeB">路线 B</text>
      </svg>
     </div>
-    <div class="phone-card"><small>ROUTE A · RECOMMENDED PLACE</small><b>Upper Terrace Community Hall</b><div class="phone-meta"><span>Higher ground</span><strong>3 min walk</strong></div><div class="phone-route">Route A · Green solid line</div></div>
-    <div class="phone-card secondary"><small>ROUTE B · ALTERNATIVE PLACE</small><b>Ridge Primary School</b><div class="phone-meta"><span>Higher ground</span><strong>5 min walk</strong></div><div class="phone-route" style="color:#287fba">Route B · Blue dashed line</div></div>
-    <div class="phone-instruction"><b id="phoneActionTitle">Prepare to evacuate</b><p id="phoneAction">Check your route, keep essential items ready, and stay alert for the next instruction.</p></div>
-    <div class="phone-bottom"><span>⌂<small>Home</small></span><span>⌖<small>Map</small></span><span>ⓘ<small>Alerts</small></span></div>
+    <div class="phone-card"><small data-i18n="routeAHeader">路线 A · 推荐地点</small><b data-i18n="place1Name">高地平台社区中心</b><div class="phone-meta"><span data-i18n="higher">高地</span><strong data-i18n="walk3">步行 3 分钟</strong></div><div class="phone-route" data-i18n="routeAline">路线 A · 绿色实线</div></div>
+    <div class="phone-card secondary"><small data-i18n="routeBHeader">路线 B · 备选地点</small><b data-i18n="place2Name">山脊小学</b><div class="phone-meta"><span data-i18n="higher">高地</span><strong data-i18n="walk5">步行 5 分钟</strong></div><div class="phone-route" style="color:#287fba" data-i18n="routeBline">路线 B · 蓝色虚线</div></div>
+    <div class="phone-instruction"><b id="phoneActionTitle">准备疏散</b><p id="phoneAction">查看路线,备好必需品,留意下一条指示。</p></div>
+    <div class="phone-bottom"><span>⌂<small data-i18n="home">主页</small></span><span>⌖<small data-i18n="map">地图</small></span><span>ⓘ<small data-i18n="alerts">警报</small></span></div>
    </div>
   </div>
-  <p class="phone-caption">Resident view only: this phone preview has no scenario selector or simulation controls.</p>
  </aside>
 </div>
-<div class="foot">ACADEMIC PROTOTYPE · ALL READINGS, LOCATIONS AND ROUTES ARE SIMULATED · NOT FOR REAL-WORLD EMERGENCY NAVIGATION</div>
 </div>
 <script>
 const cases={
  normal:[
-  ["13:40","BLUE","Blue warning issued. Prepare to evacuate and review your nearest safe route.","Prepare to evacuate","Check your evacuation route, keep essential items ready, and stay alert for the next instruction.","The system is at Blue warning level. Residents should prepare to evacuate.","blue",null],
-  ["13:43","BLUE","Monitoring continues. No significant change has been detected.","Prepare to evacuate","Keep essentials ready, check your route, and be prepared to leave when instructed.","The warning remains at Blue. Keep your evacuation plan ready.","blue",null],
-  ["13:46","BLUE","Conditions remain stable in this demonstration.","Prepare to evacuate","Prepare essential belongings and make sure household members know the safe route.","Blue warning is active. Review the evacuation route and prepare to leave.","green",null]
+  ["13:40","BLUE",
+   {zh:"已发布蓝色预警。准备疏散,并查看最近的疏散路线。",en:"Blue warning issued. Prepare to evacuate and review your nearest safe route."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"查看你的疏散路线,备好必需品,留意下一条指示。",en:"Check your evacuation route, keep essential items ready, and stay alert for the next instruction."},
+   {zh:"系统处于蓝色预警等级。居民应准备疏散。",en:"The system is at Blue warning level. Residents should prepare to evacuate."},
+   "blue",null],
+  ["13:43","BLUE",
+   {zh:"持续监测中。未检测到明显变化。",en:"Monitoring continues. No significant change has been detected."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"备好必需品,查看路线,接到指示时准备离开。",en:"Keep essentials ready, check your route, and be prepared to leave when instructed."},
+   {zh:"预警仍为蓝色。保持疏散计划就绪。",en:"The warning remains at Blue. Keep your evacuation plan ready."},
+   "blue",null],
+  ["13:46","BLUE",
+   {zh:"本演示中状况保持稳定。",en:"Conditions remain stable in this demonstration."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"备好必需品,并确保家人知道安全路线。",en:"Prepare essential belongings and make sure household members know the safe route."},
+   {zh:"蓝色预警生效。查看疏散路线并准备离开。",en:"Blue warning is active. Review the evacuation route and prepare to leave."},
+   "green",null]
  ],
  false:[
-  ["13:40","BLUE","No immediate flood warning. Prepare to evacuate.","Prepare to evacuate","Keep your phone available and follow official updates.","Blue warning is active. Prepare to evacuate.","blue",null],
-  ["13:43","YELLOW","An unusual change has been detected. Stay alert and prepare in case conditions worsen.","Be prepared","Keep essentials nearby, check on family members and monitor updates. You do not need to evacuate yet in this scenario.","Water-level change is unusual, but supporting signals are not yet consistent.","yellow",45],
-  ["13:46","YELLOW","The signal is being checked. Maintain readiness while monitoring continues.","Remain prepared","Stay near your current safe area and wait for the next update.","The system is checking whether the anomaly persists.","yellow",40],
-  ["13:49","CANCELLED","The unusual readings have returned to normal. The warning is cancelled.","Warning cancelled","No evacuation is advised in this scenario. Continue to monitor local updates.","The anomaly has subsided and the other indicators do not support an ongoing flood threat.","blue",null],
-  ["13:52","BLUE","The false alarm has cleared. Monitoring has returned to normal.","Monitor updates","No evacuation was needed in this scenario. Continue to follow official updates.","The unusual reading did not persist, so monitoring returned to the normal Blue level.","green",null]
+  ["13:40","BLUE",
+   {zh:"暂无洪水预警。准备疏散。",en:"No immediate flood warning. Prepare to evacuate."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"保持手机畅通,留意官方更新。",en:"Keep your phone available and follow official updates."},
+   {zh:"蓝色预警生效。准备疏散。",en:"Blue warning is active. Prepare to evacuate."},
+   "blue",null],
+  ["13:43","YELLOW",
+   {zh:"检测到异常变化。保持警惕,以防状况恶化。",en:"An unusual change has been detected. Stay alert and prepare in case conditions worsen."},
+   {zh:"做好准备",en:"Be prepared"},
+   {zh:"备好必需品,关注家人,留意更新。本情景中你暂不需要疏散。",en:"Keep essentials nearby, check on family members and monitor updates. You do not need to evacuate yet in this scenario."},
+   {zh:"水位变化异常,但其它信号尚不一致。",en:"Water-level change is unusual, but supporting signals are not yet consistent."},
+   "yellow",45],
+  ["13:46","YELLOW",
+   {zh:"信号正在核查中。保持戒备,等待下一步。",en:"The signal is being checked. Maintain readiness while monitoring continues."},
+   {zh:"保持准备",en:"Remain prepared"},
+   {zh:"留在当前安全区域,等待下一条更新。",en:"Stay near your current safe area and wait for the next update."},
+   {zh:"系统正在核查异常是否持续。",en:"The system is checking whether the anomaly persists."},
+   "yellow",40],
+  ["13:49","CANCELLED",
+   {zh:"异常读数已恢复正常。警报解除。",en:"The unusual readings have returned to normal. The warning is cancelled."},
+   {zh:"警报已解除",en:"Warning cancelled"},
+   {zh:"本情景不建议疏散。继续留意本地更新。",en:"No evacuation is advised in this scenario. Continue to monitor local updates."},
+   {zh:"异常已消退,其它指标不支持持续洪水威胁。",en:"The anomaly has subsided and the other indicators do not support an ongoing flood threat."},
+   "blue",null],
+  ["13:52","BLUE",
+   {zh:"假警报已解除。监测恢复正常。",en:"The false alarm has cleared. Monitoring has returned to normal."},
+   {zh:"留意更新",en:"Monitor updates"},
+   {zh:"本情景无需疏散。继续留意官方更新。",en:"No evacuation was needed in this scenario. Continue to follow official updates."},
+   {zh:"异常读数未持续,监测已恢复蓝色等级。",en:"The unusual reading did not persist, so monitoring returned to the normal Blue level."},
+   "green",null]
  ],
  flood:[
-  ["13:40","BLUE","No immediate flood warning. Prepare to evacuate.","Prepare to evacuate","Keep your phone available and follow official updates.","Blue warning is active. Prepare to evacuate.","blue",null],
-  ["13:43","YELLOW","Several warning signs are increasing. Prepare to move to a safe place if instructed.","Prepare to evacuate","Gather essential items, assist children and older family members, and review the recommended uphill route.","Multiple indicators are changing together. The system has raised the alert to Yellow.","yellow",30],
-  ["13:46","RED","Flood danger is high. Leave the hazard area now using the recommended safe route.","EVACUATE NOW","Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater. Follow local emergency personnel.","Severe and corroborating warning signals meet the simulated Red condition.","red",12],
-  ["13:49","RED","The evacuation warning remains active. Continue to the designated safe place.","Continue evacuation","Stay on the recommended uphill route and follow instructions from local authorities.","The simulated danger condition remains elevated.","red",6]
+  ["13:40","BLUE",
+   {zh:"暂无洪水预警。准备疏散。",en:"No immediate flood warning. Prepare to evacuate."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"保持手机畅通,留意官方更新。",en:"Keep your phone available and follow official updates."},
+   {zh:"蓝色预警生效。准备疏散。",en:"Blue warning is active. Prepare to evacuate."},
+   "blue",null],
+  ["13:43","YELLOW",
+   {zh:"多项预警信号增强。接到指示时准备转移到安全地点。",en:"Several warning signs are increasing. Prepare to move to a safe place if instructed."},
+   {zh:"准备疏散",en:"Prepare to evacuate"},
+   {zh:"收拾必需品,帮助儿童和老人,查看推荐的上山路线。",en:"Gather essential items, assist children and older family members, and review the recommended uphill route."},
+   {zh:"多项指标同时变化。系统已将预警升至黄色。",en:"Multiple indicators are changing together. The system has raised the alert to Yellow."},
+   "yellow",30],
+  ["13:46","RED",
+   {zh:"洪水危险很高。现在沿推荐路线离开危险区。",en:"Flood danger is high. Leave the hazard area now using the recommended safe route."},
+   {zh:"立即疏散",en:"EVACUATE NOW"},
+   {zh:"前往推荐的高地避难所。不要靠近河流或进入洪水。听从现场应急人员指挥。",en:"Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater. Follow local emergency personnel."},
+   {zh:"严重且相互印证的预警信号达到模拟红色条件。",en:"Severe and corroborating warning signals meet the simulated Red condition."},
+   "red",12],
+  ["13:49","RED",
+   {zh:"疏散警报持续。继续前往指定安全地点。",en:"The evacuation warning remains active. Continue to the designated safe place."},
+   {zh:"继续疏散",en:"Continue evacuation"},
+   {zh:"留在推荐的上山路线,听从当地部门指示。",en:"Stay on the recommended uphill route and follow instructions from local authorities."},
+   {zh:"模拟危险状况仍处于高位。",en:"The simulated danger condition remains elevated."},
+   "red",6]
  ]
 };
-let selected="normal",step=0;
+const T={
+ demo:{zh:"演示模拟",en:"SIMULATION DEMO"},
+ introTitle:{zh:"社区防洪安全",en:"Community Flood Safety"},
+ introSub:{zh:"提前预警 · 清晰的下一步 · 本地疏散指引。",en:"Early warning. Clear next steps. Local evacuation guidance."},
+ howToTitle:{zh:"怎么操作这个演示",en:"How to run this demo"},
+ step1:{zh:"选一个情景",en:"Pick a scenario"},
+ step1d:{zh:"点左侧三个情景之一",en:"Choose one of the three scenarios"},
+ step2:{zh:"点「下一步」",en:"Click “Next”"},
+ step2d:{zh:"逐步推进模拟",en:"Advance the simulation step by step"},
+ step3:{zh:"看预警变化",en:"Watch the alert change"},
+ step3d:{zh:"预警等级与建议随之改变",en:"The alert level and advice change"},
+ step4:{zh:"看手机端",en:"Check the phone"},
+ step4d:{zh:"右侧居民界面同步更新",en:"The resident phone syncs on the right"},
+ simTime:{zh:"模拟时间",en:"SIMULATION TIME"},
+ backLabel:{zh:"后端 · 操作员后台",en:"BACK-END · OPERATOR CONTROL PANEL"},
+ mapTitle:{zh:"你的位置 & 附近安全地点",en:"Your location & nearby safe places"},
+ mapTag:{zh:"示意地图",en:"DEMO MAP"},
+ mapNote:{zh:"原型示意地图与路线。实际使用前请替换为核实过的本地地图数据。",en:"Illustrative map and routes for the prototype. Replace with verified local map data before real-world use."},
+ mapYou:{zh:"你在这里",en:"YOU ARE HERE"},
+ shelterA:{zh:"避难所 A",en:"Shelter A"},
+ shelterB:{zh:"避难所 B",en:"Shelter B"},
+ hillside:{zh:"山坡",en:"HILLSIDE"},
+ river:{zh:"河流",en:"RIVER"},
+ floodZone:{zh:"洪水风险区",en:"FLOOD-RISK ZONE"},
+ gauge1:{zh:"水位计 1",en:"GAUGE 1"},
+ gauge2:{zh:"水位计 2",en:"GAUGE 2"},
+ placesTitle:{zh:"推荐安全地点",en:"Recommended safe places"},
+ place1Name:{zh:"高地平台社区中心",en:"Upper Terrace Community Hall"},
+ place1Tag:{zh:"推荐",en:"RECOMMENDED"},
+ place1Desc:{zh:"高地避难所 · 主路线沿山坡公路",en:"Higher-ground shelter · Main route via hillside road"},
+ place1Eta:{zh:"3 分钟",en:"3 min"},
+ walk:{zh:"步行预计",en:"walking estimate"},
+ place2Name:{zh:"山脊小学",en:"Ridge Primary School"},
+ place2Desc:{zh:"备选避难所 · 次选上山路线",en:"Alternative shelter · Secondary uphill route"},
+ place2Eta:{zh:"5 分钟",en:"5 min"},
+ placesNote:{zh:"两个目的地均为演示固定地点。容量与占用为示意占位。",en:"Both destinations are fixed demo locations. Occupancy and capacity are illustrative placeholders."},
+ etaTitle:{zh:"洪水到达时间预估",en:"Flood arrival estimate"},
+ etaTag:{zh:"计算得出的 ETA",en:"COMPUTED ETA"},
+ etaNone:{zh:"当前状况下暂无洪水到达时间预估。",en:"No flood arrival estimate for the current conditions."},
+ etaNotePre:{zh:"预计洪水约 {eta} 分钟后到达。",en:"Estimated flood arrival in ~{eta} minutes."},
+ minUnit:{zh:"分钟",en:"MIN"},
+ etaRed:{zh:"请立即撤离。",en:"Evacuate immediately."},
+ etaYellow:{zh:"请准备离开。",en:"Prepare to leave."},
+ etaBlue:{zh:"继续留意。",en:"Continue monitoring."},
+ doTitle:{zh:"你应该怎么做?",en:"What should you do?"},
+ next:{zh:"下一步 →",en:"Next update →"},
+ reset:{zh:"重置演示",en:"Reset demo"},
+ done:{zh:"情景结束",en:"Scenario complete"},
+ demoTitle:{zh:"试试一个情景",en:"Try a demonstration"},
+ s1t:{zh:"1. 正常情况",en:"1. Normal conditions"},
+ s1d:{zh:"蓝色预警:准备疏散。",en:"Blue warning: prepare to evacuate."},
+ s2t:{zh:"2. 假警报",en:"2. False alarm"},
+ s2d:{zh:"出现异常,随后解除。",en:"An anomaly appears, then clears."},
+ s3t:{zh:"3. 洪水发展",en:"3. Flood develops"},
+ s3d:{zh:"风险升高,建议疏散。",en:"Risk increases and evacuation is advised."},
+ whyTitle:{zh:"预警为什么变了?",en:"Why did the alert change?"},
+ phoneTitle:{zh:"前端 · 居民手机界面",en:"FRONT-END · RESIDENT PHONE INTERFACE"},
+ phoneSub:{zh:"居民看到的界面预览",en:"Resident-facing interface preview"},
+ live:{zh:"实时预览",en:"LIVE PREVIEW"},
+ emgStatus:{zh:"紧急状态",en:"EMERGENCY STATUS"},
+ floodEtaLabel:{zh:"洪水到达时间预估",en:"FLOOD ARRIVAL ESTIMATE"},
+ routeAHeader:{zh:"路线 A · 推荐地点",en:"ROUTE A · RECOMMENDED PLACE"},
+ routeBHeader:{zh:"路线 B · 备选地点",en:"ROUTE B · ALTERNATIVE PLACE"},
+ higher:{zh:"高地",en:"Higher ground"},
+ walk3:{zh:"步行 3 分钟",en:"3 min walk"},
+ walk5:{zh:"步行 5 分钟",en:"5 min walk"},
+ routeAline:{zh:"路线 A · 绿色实线",en:"Route A · Green solid line"},
+ routeBline:{zh:"路线 B · 蓝色虚线",en:"Route B · Blue dashed line"},
+ you:{zh:"你",en:"YOU"},
+ routeA:{zh:"路线 A",en:"ROUTE A"},
+ routeB:{zh:"路线 B",en:"ROUTE B"},
+ home:{zh:"主页",en:"Home"},
+ map:{zh:"地图",en:"Map"},
+ alerts:{zh:"警报",en:"Alerts"},
+ alertCancelled:{zh:"警报已解除",en:"ALERT CANCELLED"},
+ warnBlue:{zh:"预警",en:"WARNING"},
+ warnYellow:{zh:"注意",en:"BE ALERT"},
+ warnRed:{zh:"立即撤离",en:"EVACUATE"},
+ pBlue:{zh:"蓝色预警",en:"BLUE WARNING"},
+ pYellow:{zh:"黄色预警",en:"YELLOW WARNING"},
+ pRed:{zh:"红色预警",en:"RED WARNING"},
+ sumBlue:{zh:"蓝色预警。准备疏散,查看你的疏散路线。",en:"Blue warning. Prepare to evacuate and review your safe route."},
+ sumYellow:{zh:"黄色预警。保持警惕,随时准备立即撤离。",en:"Yellow warning. Stay alert and be ready to leave immediately."},
+ sumRed:{zh:"红色预警。现在按推荐路线撤离。",en:"Red warning. Evacuate now using the recommended safe route."},
+ sumCancelled:{zh:"警报已解除。继续留意官方更新。",en:"The warning has been cancelled. Continue monitoring official updates."},
+ actTitleBlue:{zh:"准备疏散",en:"Prepare to evacuate"},
+ actTitleYellow:{zh:"准备离开",en:"Be ready to leave"},
+ actTitleRed:{zh:"立即疏散",en:"Evacuate now"},
+ actTitleCancelled:{zh:"警报已解除",en:"Alert cancelled"},
+ actBlue:{zh:"查看路线,备好必需品,留意下一条指示。",en:"Check your route, keep essential items ready, and stay alert for the next instruction."},
+ actYellow:{zh:"保持准备,随身带好手机,等待下一条指示。",en:"Stay ready, keep your phone with you, and follow the next instruction."},
+ actRed:{zh:"前往推荐的高地避难所。不要靠近河流或进入洪水。",en:"Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater."},
+ actCancelled:{zh:"本次模拟中警报已解除。请保持官方警报开启。",en:"The alert has been cancelled in this simulation. Keep official alerts enabled."}
+};
+let selected="normal",step=0,lang="zh";
 const $=id=>document.getElementById(id);
+function t(k){return (T[k]&&T[k][lang])||k;}
 function render(){
  const s=cases[selected][step],status=s[1],colors={BLUE:"#287fba",YELLOW:"#e5ad36",RED:"#d94d55",CANCELLED:"#278c70"};
- $("clock").textContent=s[0];$("statusName").textContent=status==="CANCELLED"?"ALERT CANCELLED":status+" · "+(status==="BLUE"?"WARNING":status==="YELLOW"?"BE ALERT": "EVACUATE");
- $("statusName").style.color=colors[status];$("statusIcon").textContent=status==="RED"?"!":status==="YELLOW"?"⚠":status==="CANCELLED"?"✓":"✓";$("statusIcon").style.background=status==="RED"?"#fde8e9":status==="YELLOW"?"#fff4d9":"#e6f2fa";
- $("statusDesc").textContent=s[2];
+ $("clock").textContent=s[0];
+ $("statusName").textContent=status==="CANCELLED"?t("alertCancelled"):status+" · "+(status==="BLUE"?t("warnBlue"):status==="YELLOW"?t("warnYellow"):t("warnRed"));
+ $("statusName").style.color=colors[status];
+ $("statusIcon").textContent=status==="RED"?"!":status==="YELLOW"?"⚠":status==="CANCELLED"?"✓":"✓";
+ $("statusIcon").style.background=status==="RED"?"#fde8e9":status==="YELLOW"?"#fff4d9":"#e6f2fa";
+ $("statusDesc").textContent=s[2][lang];
  const pStatus=$("phoneStatus"),pSummary=$("phoneSummary");
- pStatus.textContent=status==="CANCELLED"?"ALERT CANCELLED":status+" WARNING";
+ pStatus.textContent=status==="CANCELLED"?t("alertCancelled"):status==="RED"?t("pRed"):status==="YELLOW"?t("pYellow"):t("pBlue");
  pStatus.className="phone-status "+(status==="RED"?"red":status==="YELLOW"?"yellow":status==="CANCELLED"?"cancelled":"blue");
- pSummary.textContent=status==="BLUE"?"Blue warning. Prepare to evacuate and review your safe route.":status==="YELLOW"?"Yellow warning. Stay alert and be ready to leave immediately.":status==="RED"?"Red warning. Evacuate now using the recommended safe route.":"The warning has been cancelled. Continue monitoring official updates.";
- $("phoneActionTitle").textContent=status==="BLUE"?"Prepare to evacuate":status==="YELLOW"?"Be ready to leave":status==="RED"?"Evacuate now":"Alert cancelled";
- $("phoneAction").textContent=status==="BLUE"?"Check your route, keep essential items ready, and stay alert for the next instruction.":status==="YELLOW"?"Stay ready, keep your phone with you, and follow the next instruction.":status==="RED"?"Go to the recommended higher-ground shelter. Do not approach the river or enter floodwater.":"The alert has been cancelled in this simulation. Keep official alerts enabled.";
- $("advice").className="action "+s[6];$("advice").innerHTML="<strong>"+s[3]+"</strong><p>"+s[4]+"</p>";$("reason").textContent=s[5];
- const n=cases[selected].length;$("progress").innerHTML=Array.from({length:n},(_,i)=>`<i class="step${i<=step?" done":""}"></i>`).join("");
- $("next").disabled=step>=cases[selected].length-1;$("next").textContent=step>=cases[selected].length-1?"Scenario complete":"Next update →";
+ pSummary.textContent=status==="BLUE"?t("sumBlue"):status==="YELLOW"?t("sumYellow"):status==="RED"?t("sumRed"):t("sumCancelled");
+ $("phoneActionTitle").textContent=status==="BLUE"?t("actTitleBlue"):status==="YELLOW"?t("actTitleYellow"):status==="RED"?t("actTitleRed"):t("actTitleCancelled");
+ $("phoneAction").textContent=status==="BLUE"?t("actBlue"):status==="YELLOW"?t("actYellow"):status==="RED"?t("actRed"):t("actCancelled");
+ $("advice").className="action "+s[6];
+ $("advice").innerHTML="<strong>"+s[3][lang]+"</strong><p>"+s[4][lang]+"</p>";
+ $("reason").textContent=s[5][lang];
+ const n=cases[selected].length;
+ $("progress").innerHTML=Array.from({length:n},(_,i)=>`<i class="step${i<=step?" done":""}"></i>`).join("");
+ const done=step>=cases[selected].length-1;
+ $("next").disabled=done;
+ $("next").textContent=done?t("done"):t("next");
  const eta=s[7],eb=$("phoneEta");
  if(eta==null){
   eb.style.display="none";
   $("opEtaValue").textContent="—";$("opEtaValue").className="op-eta-value blue";
   $("opEtaFill").className="eta-fill blue";$("opEtaFill").style.width="4%";
-  $("opEtaNote").textContent="No flood arrival estimate for the current conditions.";
+  $("opEtaNote").textContent=t("etaNone");
  }
- else{eb.style.display="block";const sev=eta<15?"red":eta<45?"yellow":"blue",pct=Math.max(5,Math.min(100,(60-eta)/60*100));
-  $("phoneEtaValue").textContent=eta+" MIN";$("phoneEtaValue").className="eta-value "+sev;
+ else{
+  eb.style.display="block";
+  const sev=eta<15?"red":eta<45?"yellow":"blue",pct=Math.max(5,Math.min(100,(60-eta)/60*100));
+  $("phoneEtaValue").textContent=eta+" "+t("minUnit");
+  $("phoneEtaValue").className="eta-value "+sev;
   $("phoneEtaFill").className="eta-fill "+sev;$("phoneEtaFill").style.width=pct+"%";
-  $("opEtaValue").textContent="~"+eta+" MIN";$("opEtaValue").className="op-eta-value "+sev;
+  $("opEtaValue").textContent="~"+eta+" "+t("minUnit");
+  $("opEtaValue").className="op-eta-value "+sev;
   $("opEtaFill").className="eta-fill "+sev;$("opEtaFill").style.width=pct+"%";
-  $("opEtaNote").textContent="Estimated flood arrival in ~"+eta+" minutes. "+(sev==="red"?"Evacuate immediately.":sev==="yellow"?"Prepare to leave.":"Continue monitoring.");
+  $("opEtaNote").textContent=t("etaNotePre").replace("{eta}",eta)+" "+(sev==="red"?t("etaRed"):sev==="yellow"?t("etaYellow"):t("etaBlue"));
  }
+}
+function setLang(l){
+ lang=l;
+ document.querySelectorAll(".lang-opt").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+ document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+ render();
 }
 function choose(key){selected=key;step=0;document.querySelectorAll(".scenario").forEach(b=>b.classList.toggle("active",b.dataset.case===key));render()}
 document.querySelectorAll(".scenario").forEach(b=>b.onclick=()=>choose(b.dataset.case));
+document.querySelectorAll(".lang-opt").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 $("next").onclick=()=>{if(step<cases[selected].length-1){step++;render()}};
 $("reset").onclick=()=>{step=0;render()};
-render();
+setLang("zh");
 </script>
 </body>
 </html>
